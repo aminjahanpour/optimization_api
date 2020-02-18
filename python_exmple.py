@@ -1,29 +1,46 @@
 import numpy as np
 import requests
 import json
-import gzip
+from math import cos, pi, exp, e, sqrt, sin
 
-def obj_fun(x):
-    # example objective function (replace with your own)
-    # Optoria works with 0<=x<=1; you will have to denormalize the x before evaluation
-    return x[0] + 2*x[1]
+"""
+This is the Ackley test function with -15. < x < 30.
+Replace with your ouw cost function and update the bounds accordingly
+"""
+def obj_fun(individual, lower_bound=-15., upper_bound=30.):
+    # this line is necessary to denormalize the decision variables
+    individual = [x * (upper_bound - lower_bound) + lower_bound for x in individual]
 
-server = 'http://45.32.213.42'
-key = 'fake_key'
-dim = 2
-budget = 200 * dim
-id = 'python_example'
+    N = len(individual)
+    return 20 - 20 * exp(-0.2 * sqrt(1.0 / N * sum(x ** 2 for x in individual))) \
+           + e - exp(1.0 / N * sum(cos(2 * pi * x) for x in individual))
 
-resp = requests.post(url='%s?key=%s&req=del&id=%s' % (server, key, id));                                    print(resp.content)
-resp = requests.post(url='%s?key=%s&req=create&id=%s&dim=%s&budget=%s' % (server, key, id, dim, budget));   print(resp.content)
-resp = requests.post(url='%s?key=%s&req=ask&id=%s' % (server, key, id));                                    print(resp.content)
 
-# arbitrary values for f_best
+server = 'http://45.32.158.25/'
+
+key = 'email mjahanpo@uwaterloo.ca for a key'
+
+dim = 10
+budget = 100
+id = 'ackley'
+
+resp = requests.post(url='%s?key=%s&req=del&id=%s' % (server, key, id))
+print(resp.content)
+
+resp = requests.post(url='%s?key=%s&req=create&id=%s&dim=%s&budget=%s' % (server, key, id, dim, budget))
+print(resp.content)
+
+resp = requests.post(url='%s?key=%s&req=ask&id=%s' % (server, key, id))
+
+
 f_best = 10e20
+
 while b'budget_used_up' not in resp.content:
     dv = json.loads(resp.content.decode("utf-8"))["dv"]
+
     # creating the vector of objective functions from recoeved solutions
     f = np.array(list(map(obj_fun, dv)))
+
     # updating the best objective function (for logging only)
     if min(f) <= f_best: #update f_best and x_best
         f_best = min(f)
@@ -33,7 +50,16 @@ while b'budget_used_up' not in resp.content:
     f_arrstr = np.char.mod('%f', f)
     f_string = ",".join(f_arrstr)
     # submitting the objective function values to the server and requesting for new solutions
-    payload = {'req': 'roll', 'key': key, 'id': id, 'dim': dim, 'f': gzip.compress(f_string.encode('latin')).decode('latin')}
+    payload = {'req': 'roll',
+               'key': key,
+               'id': id,
+               'dim': dim,
+               'f': f_string
+               }
+
     resp = requests.post(url=server, json=payload)
+
+print("---------\nbest_found dv: %s" % x_best)
+print("best found objective function: %s" % f_best)
 
 
