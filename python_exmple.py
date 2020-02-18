@@ -5,7 +5,7 @@ from math import cos, pi, exp, e, sqrt, sin
 
 """
 This is the Ackley test function with -15. < x < 30.
-Replace with your ouw cost function and update the bounds accordingly
+Replace with your own cost function and update the bounds accordingly
 """
 def obj_fun(individual, lower_bound=-15., upper_bound=30.):
     # this line is necessary to denormalize the decision variables
