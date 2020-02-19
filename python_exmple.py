@@ -21,7 +21,7 @@ server = 'http://45.32.158.25/'
 key = 'email mjahanpo@uwaterloo.ca for a key'
 
 dim = 10
-budget = 100
+budget = 2000
 id = 'ackley'
 
 resp = requests.post(url='%s?key=%s&req=del&id=%s' % (server, key, id))
