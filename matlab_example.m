@@ -1,5 +1,5 @@
-server='http://45.32.213.42';
-key='fake_key';
+server='http://45.32.158.25';
+key='email mjahanpo@uwaterloo.ca for a key';
 dim = 2;
 budget = 200 * dim;
 id = 'matlab_example';
@@ -15,7 +15,7 @@ f_best = 10e20;
 while char(resp.dv(1,1)) ~= "budget_used_up"
     %creating the vector of objective functions from recoeved solutions
     f=[];
-    for k = 1 : length(resp.dv)
+    for k = 1 : size(resp.dv, 1)
         f(k)=evaluate(resp.dv(k,:));
     end
     %updating the best objective function (for logging only)
@@ -32,10 +32,6 @@ end
 
 function obj_fun = evaluate(x)
     % example objective function (replace with your own)
-    % Optoria works with 0<=x<=1; you will have to denormalize the x before evaluation
+    % The API works with 0<=x<=1; you will have to denormalize the x before evaluation
     obj_fun = x(1)+2*x(2);
 end
-
-
-
-
