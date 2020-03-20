@@ -74,7 +74,7 @@ function run_minimizaton(server::String, key::String, id::String, budget::Int)
 end
 
 
-server = "http://45.32.158.25/"
+server = "http://142.93.156.10/"
 key = "email mjahanpo@uwaterloo.ca for a key"
 id = "julia_example"
 budget = 100

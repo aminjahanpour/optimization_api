@@ -16,12 +16,12 @@ def obj_fun(individual, lower_bound=-15., upper_bound=30.):
            + e - exp(1.0 / N * sum(cos(2 * pi * x) for x in individual))
 
 
-server = 'http://45.32.158.25/'
+server = 'http://142.93.156.10/'
 
 key = 'email mjahanpo@uwaterloo.ca for a key'
 
 dim = 10
-budget = 2000
+budget = 100
 id = 'ackley'
 
 resp = requests.post(url='%s?key=%s&req=del&id=%s' % (server, key, id))
@@ -31,35 +31,21 @@ resp = requests.post(url='%s?key=%s&req=create&id=%s&dim=%s&budget=%s' % (server
 print(resp.content)
 
 resp = requests.post(url='%s?key=%s&req=ask&id=%s' % (server, key, id))
-
-
 f_best = 10e20
 
 while b'budget_used_up' not in resp.content:
     dv = json.loads(resp.content.decode("utf-8"))["dv"]
-
-    # creating the vector of objective functions from recoeved solutions
     f = np.array(list(map(obj_fun, dv)))
-
-    # updating the best objective function (for logging only)
-    if min(f) <= f_best: #update f_best and x_best
-        f_best = min(f)
-        x_best = dv[list(f).index(min(f))]
-        print("x_best: %s     f_best:%f" % (x_best, f_best))
-    # creating a string of evaluated objective function values
     f_arrstr = np.char.mod('%f', f)
     f_string = ",".join(f_arrstr)
-    # submitting the objective function values to the server and requesting for new solutions
-    payload = {'req': 'roll',
-               'key': key,
-               'id': id,
-               'dim': dim,
-               'f': f_string
-               }
-
+    payload = {'req': 'roll', 'key': key, 'id': id, 'dim': dim, 'f': f_string}
     resp = requests.post(url=server, json=payload)
 
-print("---------\nbest_found dv: %s" % x_best)
-print("best found objective function: %s" % f_best)
+
+resp = requests.post(url='%s?key=%s&req=results&id=%s' % (server, key, id))
+best_f = json.loads(resp.content.decode("utf-8"))["best_f"]
+best_dv = json.loads(resp.content.decode("utf-8"))["best_dv"]
 
 
+print("---------\nbest_found dv: %s" % best_dv)
+print("best found objective function: %s" % best_f)

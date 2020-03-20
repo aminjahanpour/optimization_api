@@ -1,4 +1,4 @@
-server='http://45.32.158.25';
+server='http://142.93.156.10';
 key='email mjahanpo@uwaterloo.ca for a key';
 dim = 2;
 budget = 200 * dim;
