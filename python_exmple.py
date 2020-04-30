@@ -16,7 +16,7 @@ def obj_fun(individual, lower_bound=-15., upper_bound=30.):
            + e - exp(1.0 / N * sum(cos(2 * pi * x) for x in individual))
 
 
-server = 'http://142.93.156.10/'
+server = 'http://35.203.55.211/'
 
 key = 'email mjahanpo@uwaterloo.ca for a key'
 
