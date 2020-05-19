@@ -16,11 +16,12 @@ def obj_fun(individual, lower_bound=-15., upper_bound=30.):
            + e - exp(1.0 / N * sum(cos(2 * pi * x) for x in individual))
 
 
-server = 'http://35.203.55.211/'
+server = 'http://35.203.55.211/' # Canada
+server = 'http://34.65.208.20/' # Germany
 
 key = 'email mjahanpo@uwaterloo.ca for a key'
 
-dim = 10
+dim = 3
 budget = 100
 id = 'ackley'
 
@@ -32,14 +33,16 @@ print(resp.content)
 
 resp = requests.post(url='%s?key=%s&req=ask&id=%s' % (server, key, id))
 f_best = 10e20
+print(resp.content)
 
 while b'budget_used_up' not in resp.content:
     dv = json.loads(resp.content.decode("utf-8"))["dv"]
     f = np.array(list(map(obj_fun, dv)))
-    f_arrstr = np.char.mod('%f', f)
-    f_string = ",".join(f_arrstr)
+    f_arrstr = np.char.mod('[%f]', f)
+    f_string = ";".join(f_arrstr)
     payload = {'req': 'roll', 'key': key, 'id': id, 'dim': dim, 'f': f_string}
     resp = requests.post(url=server, json=payload)
+    print(resp.content)
 
 
 resp = requests.post(url='%s?key=%s&req=results&id=%s' % (server, key, id))
