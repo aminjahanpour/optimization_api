@@ -4,6 +4,7 @@ Optoria is a minimalistic cloud-based optimization service. Optoria was created 
 
 Please visit http://optoriatech.com for full introduction to the tool.
 
+Also see https://github.com/aminjahanpour/optimization_api/wiki for full descriotion of the API commands.
 ## How it works
 
 1- Optoria sends you a set of suggestive decision variables
@@ -23,13 +24,13 @@ next you need to replace the simple example file with your cost-function. Rememb
 
 
 
-# Usage:
+## Usage:
 `http://[server]/?key=[your_key]&req=[command]&id=[id]`
 
 The API calls can be made from within **any** environment that can send HTTP requests. You can even use your favorite web browser to talk to the API.
 
 
-## Server:
+### Server:
 Below are the IP addresses of the available servers. Pick a server IP based on your location and use it as [server] in the usage format shown above.
 
 | Server Code  | Location | IP |
@@ -37,18 +38,18 @@ Below are the IP addresses of the available servers. Pick a server IP based on y
 | **1**|  :canada: Montereal | 35.203.55.211 |
 | **2**| :de:  Munich | 34.65.208.20 |
 
-## Parameters:
+### Parameters:
 The order of the below parameters does not matter.
 ***
 
-### :key: key
+#### :key: key
 This is your API key. You can email amin.jahanpour@gmail.com to request a key.
 
-Please note that this key is the only security measure between you and the servers. Anyone with this key is able to delete or create projects and generally submit API commands on your behalf.
+Please note that this key is the only security measure between you and the servers.
 
 ***
 
-### :speech_balloon: req
+#### :speech_balloon: req
 This is the API command type being sent to the server. There are currently four API commands avaiable:
 * :star: [create](https://github.com/aminjahanpour/optimization_api/wiki/create)
 * :boom: [del](https://github.com/aminjahanpour/optimization_api/wiki/del)
@@ -58,7 +59,7 @@ This is the API command type being sent to the server. There are currently four 
 
 ***
 
-### :paw_prints: id
+#### :paw_prints: id
 This is the name of the project.
 
 * `id` must be a unique string.
@@ -69,13 +70,13 @@ This is the name of the project.
 
 ***
 
-### :large_blue_diamond: dim
+#### :large_blue_diamond: dim
 Number of decision variables in your optimization problem. `dim` is an integer and has to be greater or equal to 2.
 
 ***
 
-### :heavy_dollar_sign: budget
-The maximum number of objective function evaluations you allow for the optimization work. This number cannot exceed 10,000×`dim` or be less than 50×`dim`.
+#### :heavy_dollar_sign: budget
+The maximum number of cost-function evaluations you allow for the optimization work. This number cannot exceed 10,000×`dim` or be less than 50×`dim`.
 
 50×`dim` ≤ `budget` ≤ 10,000×`dim`
 
@@ -83,6 +84,6 @@ The recommended budget is 200×`dim`. For example, for a problem with 5 decision
 
 ***
 
-### :triangular_ruler: f
+#### :triangular_ruler: f
 A comma-separated string that contains the results of evaluations of the pending solutions. The order of the numbers in the string needs to match the order of the pending solutions.
 
